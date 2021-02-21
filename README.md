@@ -10,4 +10,4 @@ Each time the player wins, a key is added in his bunch of keys, and the game is
 relaunched.
 If the player loses, a key is removed from his bunch of keys.
 
-This project has been made thanks to [Graven's Exericise](http://graven.yt/git/git.pdf)
+This project has been made thanks to [Graven's Exercise](http://graven.yt/git/git.pdf).
