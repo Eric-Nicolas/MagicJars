@@ -11,6 +11,8 @@ def main() -> None:
     SNAKE = 'snake'
     DIFFICULTY = get_difficulty()
 
+
+
     bunch_of_keys = 0
     lives = 3
 
