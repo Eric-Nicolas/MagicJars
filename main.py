@@ -12,6 +12,7 @@ def main() -> None:
     DIFFICULTY = get_difficulty()
 
     bunch_of_keys = 0
+    lives = 3
 
     is_running = True
     while is_running:  # This loop is executed until we get 3 keys in bunch_of_keys
