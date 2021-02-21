@@ -15,19 +15,15 @@ def custom_array(length: int, common_value: str, rare_value: str, rare_value_num
     return array
 
 
-def get_value_safely(text_input: str, max_value: int) -> int:
-    value = 0
-    while value == 0:
-        value = input(text_input)
+def get_user_choice(number_of_jars: int) -> int:
+    user_choice = 0
+    while user_choice == 0:
+        user_choice = input("Choose a jar between the n°1 and the n°" + str(number_of_jars) + ": ")
         try:
-            value = int(value)
-            if value < 1 or value > max_value:
+            user_choice = int(user_choice)
+            if user_choice < 1 or user_choice > number_of_jars:
                 raise ValueError
         except ValueError:
             print("Please enter a number between 1 and " + str(max_value) + "!\n")
-            value = 0
-    return value
-
-
-def get_user_choice(number_of_jars: int) -> int:
-    return get_value_safely("Choose a jar between the n°1 and the n°" + str(number_of_jars) + ": ", number_of_jars)
+            user_choice = 0
+    return user_choice
