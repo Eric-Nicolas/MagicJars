@@ -1,13 +1,15 @@
 # Magic Jars
 ## Game Principle
 
-Before the launching of the game, the player can choose the level of 
-difficulty. The player has 5 jars in front of him.
-Some of them contain a magic key, and some of them contain a snake (according to
-the difficulty).
+This project has been inspired by [Graven's Exercise](http://graven.yt/git/git.pdf).
 
-Each time the player wins, a key is added in his bunch of keys, and the game is
-relaunched.
-If the player loses, a key is removed from his bunch of keys.
+The player has 5 jars in front of him, and chooses one of them.
+A jar contains either a magic key or a snake.
+If the player chooses a jar containing a magic key, it is added to a bunch of keys.
+If the player chooses a jar containing a snake, the player loses a life.
+If the player has no more lives, the game is over.
 
-This project has been made thanks to [Graven's Exercise](http://graven.yt/git/git.pdf).
+## Parts and Rounds
+The game is divided into 4 parts which have 3 rounds.
+In the first round there is a snake among the 5 jars.
+In the next round there is one more snake in the jars.
