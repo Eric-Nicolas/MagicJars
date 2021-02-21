@@ -29,14 +29,5 @@ def get_value_safely(text_input: str, max_value: int) -> int:
     return value
 
 
-def get_difficulty() -> int:
-    print("Here are the levels of difficulty:")
-    print("1 - Easy : 1 snake in the jars")
-    print("2 - Medium : 2 snakes in the jars")
-    print("3 - Hard : 3 snakes in the jars\n")
-
-    return get_value_safely("Select a difficulty: ", 3)
-
-
 def get_user_choice(number_of_jars: int) -> int:
     return get_value_safely("Choose a jar between the n°1 and the n°" + str(number_of_jars) + ": ", number_of_jars)
