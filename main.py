@@ -1,5 +1,4 @@
 # coding: utf-8
-import pygame
 import os
 from functions import *
 
@@ -15,16 +14,18 @@ pygame.display.set_caption("MagicJars")
 FPS = 60
 CLOCK = pygame.time.Clock()
 
-IMG_WIDTH, IMG_HEIGHT = 128, 128
+FONT = pygame.font.Font(None, 36)
+
+IMG_SIDE = 128
 
 JAR_IMG: pygame.Surface = pygame.transform.scale(
-    pygame.image.load(os.path.join('assets', 'jar.png')), (IMG_WIDTH, IMG_HEIGHT))
+    pygame.image.load(os.path.join('assets', 'jar.png')), (IMG_SIDE, IMG_SIDE))
 
 KEY_IMG: pygame.Surface = pygame.transform.scale(
-    pygame.image.load(os.path.join('assets', 'key.png')), (IMG_WIDTH // 2, IMG_HEIGHT // 2))
+    pygame.image.load(os.path.join('assets', 'key.png')), (IMG_SIDE // 2, IMG_SIDE // 2))
 
 SNAKE_IMG: pygame.Surface = pygame.transform.scale(
-    pygame.image.load(os.path.join('assets', 'snake.png')), (IMG_WIDTH // 2, IMG_HEIGHT // 2))
+    pygame.image.load(os.path.join('assets', 'snake.png')), (IMG_SIDE // 2, IMG_SIDE // 2))
 
 WHITE = (255, 255, 255)
 FIRST_PART_COLOR = (128, 64, 64)
@@ -40,43 +41,11 @@ KEY = 'key'
 SNAKE = 'snake'
 
 
-def draw_key(index: int) -> None:
-    key_rect = KEY_IMG.get_rect(
-        center=(
-            WIN_WIDTH // 5 - KEY_IMG.get_width() // 5 + JAR_IMG.get_width() * index - 10,
-            WIN_HEIGHT // 2 + 6
-        )
-    )
-    WIN.blit(KEY_IMG, key_rect)
-
-
-def draw_snake(index: int) -> None:
-    snake_rect = SNAKE_IMG.get_rect(
-        center=(
-            WIN_WIDTH // 5 - JAR_IMG.get_width() // 5 + JAR_IMG.get_width() * index,
-            WIN_HEIGHT // 2
-        )
-    )
-    WIN.blit(SNAKE_IMG, snake_rect)
-
-
-def draw_jar(index: int) -> None:
-    jar_rect = JAR_IMG.get_rect(
-        center=(
-            WIN_WIDTH // 5 - JAR_IMG.get_width() // 5 + JAR_IMG.get_width() * index,
-            WIN_HEIGHT // 2
-        )
-    )
-    WIN.blit(JAR_IMG, jar_rect)
-
-
 def main() -> None:
     lives = 3
     current_part = 1
     current_round = 1
     color_counter = 0
-
-    FONT = pygame.font.Font(None, 36)
 
     jars = custom_array(NUMBER_OF_JARS, KEY, SNAKE, current_part)
 
@@ -98,13 +67,13 @@ def main() -> None:
         WIN.blit(round_label, (WIN_WIDTH - round_label.get_width() - 10, round_label.get_height() + 10))
 
         for i in range(NUMBER_OF_JARS):
-            draw_jar(i)
+            draw_jar(WIN, JAR_IMG, i)
 
         for i in range(len(jars)):
             if jars[i] == KEY:
-                draw_key(i)
+                draw_key(WIN, KEY_IMG, i)
             else:
-                draw_snake(i)
+                draw_snake(WIN, SNAKE_IMG, i)
 
         pygame.display.update()
         CLOCK.tick(FPS)

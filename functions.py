@@ -1,6 +1,6 @@
 # coding: utf-8
 import random
-
+import pygame
 
 __author__ = 'Eric-Nicolas'
 
@@ -13,6 +13,36 @@ def custom_array(length: int, common_value: str, rare_value: str, rare_value_num
         array.append(rare_value)
     random.shuffle(array)
     return array
+
+
+def draw_jar(window: pygame.Surface, jar_img: pygame.Surface, index: int) -> None:
+    jar_rect = jar_img.get_rect(
+        center=(
+            window.get_width() // 5 - jar_img.get_width() // 5 + jar_img.get_width() * index,
+            window.get_height() // 2
+        )
+    )
+    window.blit(jar_img, jar_rect)
+
+
+def draw_key(window: pygame.Surface, key_img: pygame.Surface, index: int) -> None:
+    key_rect = key_img.get_rect(
+        center=(
+            window.get_width() // 5 - key_img.get_width() // 5 + key_img.get_width() * 2 * index - 10,
+            window.get_height() // 2 + 6
+        )
+    )
+    window.blit(key_img, key_rect)
+
+
+def draw_snake(window: pygame.Surface, snake_img: pygame.Surface, index: int) -> None:
+    snake_rect = snake_img.get_rect(
+        center=(
+            window.get_width() // 5 - snake_img.get_width() // 5 + snake_img.get_width() * 2 * index - 11,
+            window.get_height() // 2
+        )
+    )
+    window.blit(snake_img, snake_rect)
 
 
 def get_user_choice(number_of_jars: int) -> int:
