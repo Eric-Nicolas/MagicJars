@@ -24,6 +24,6 @@ def get_user_choice(number_of_jars: int) -> int:
             if user_choice < 1 or user_choice > number_of_jars:
                 raise ValueError
         except ValueError:
-            print("Please enter a number between 1 and " + str(max_value) + "!\n")
+            print("Please enter a number between 1 and " + str(number_of_jars) + "!\n")
             user_choice = 0
     return user_choice
