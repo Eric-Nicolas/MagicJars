@@ -5,7 +5,7 @@ import random
 __author__ = 'Eric-Nicolas'
 
 
-def custom_array(length: int, common_value, rare_value, rare_value_number: int) -> list:
+def custom_array(length: int, common_value: str, rare_value: str, rare_value_number: int) -> list:
     array = []
     for i in range(length - rare_value_number):
         array.append(common_value)

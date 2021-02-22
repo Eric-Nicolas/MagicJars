@@ -1,6 +1,7 @@
 # coding: utf-8
 import pygame
 import os
+from functions import *
 
 
 __author__ = 'Eric-Nicolas'
@@ -16,16 +17,8 @@ IMG_WIDTH, IMG_HEIGHT = 128, 128
 JAR_IMG: pygame.Surface = pygame.transform.scale(
     pygame.image.load(os.path.join('assets', 'jar.png')), (IMG_WIDTH, IMG_HEIGHT))
 
-
 KEY_IMG: pygame.Surface = pygame.transform.scale(
     pygame.image.load(os.path.join('assets', 'key.png')), (IMG_WIDTH // 2, IMG_HEIGHT // 2))
-
-key_rect = KEY_IMG.get_rect(
-    center=(
-        WIN_WIDTH // 5 - KEY_IMG.get_width() // 5 - 10,
-        WIN_HEIGHT // 2 + 6
-    )
-)
 
 SNAKE_IMG: pygame.Surface = pygame.transform.scale(
     pygame.image.load(os.path.join('assets', 'snake.png')), (IMG_WIDTH // 2, IMG_HEIGHT // 2))
@@ -50,6 +43,26 @@ KEY = 'key'
 SNAKE = 'snake'
 
 
+def draw_key(index: int) -> None:
+    key_rect = KEY_IMG.get_rect(
+        center=(
+            WIN_WIDTH // 5 - KEY_IMG.get_width() // 5 + JAR_IMG.get_width() * index - 10,
+            WIN_HEIGHT // 2 + 6
+        )
+    )
+    WIN.blit(KEY_IMG, key_rect)
+
+
+def draw_snake(index: int) -> None:
+    rect = SNAKE_IMG.get_rect(
+        center=(
+            WIN_WIDTH // 5 - JAR_IMG.get_width() // 5 + JAR_IMG.get_width() * index,
+            WIN_HEIGHT // 2
+        )
+    )
+    WIN.blit(SNAKE_IMG, rect)
+
+
 def draw_jar(index: int) -> None:
     jar_rect = JAR_IMG.get_rect(
         center=(
@@ -66,6 +79,8 @@ def main() -> None:
     current_round = 1
     color_counter = 0
 
+    jars = custom_array(NUMBER_OF_JARS, KEY, SNAKE, current_part)
+
     is_running = True
     while is_running:
         for event in pygame.event.get():
@@ -78,8 +93,11 @@ def main() -> None:
         for i in range(NUMBER_OF_JARS):
             draw_jar(i)
 
-        WIN.blit(KEY_IMG, key_rect)
-        WIN.blit(SNAKE_IMG, snake_rect)
+        for i in range(len(jars)):
+            if jars[i] == KEY:
+                draw_key(i)
+            else:
+                draw_snake(i)
 
         pygame.display.update()
 
