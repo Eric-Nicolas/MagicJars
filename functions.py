@@ -5,12 +5,12 @@ import pygame
 __author__ = 'Eric-Nicolas'
 
 
-def custom_array(length: int, common_value: str, rare_value: str, rare_value_number: int) -> list:
+def custom_array(length: int, jar_img: pygame.Surface, common_value: str, rare_value: str, rare_value_number: int) -> list:
     array = []
     for i in range(length - rare_value_number):
-        array.append(common_value)
+        array.append((jar_img, common_value))
     for i in range(rare_value_number):
-        array.append(rare_value)
+        array.append((jar_img, rare_value))
     random.shuffle(array)
     return array
 

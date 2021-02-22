@@ -47,7 +47,7 @@ def main() -> None:
     current_round = 1
     color_counter = 0
 
-    jars = custom_array(NUMBER_OF_JARS, KEY, SNAKE, current_part)
+    jars = custom_array(NUMBER_OF_JARS, JAR_IMG, KEY, SNAKE, current_part)
 
     is_running = True
     while is_running:
@@ -66,11 +66,13 @@ def main() -> None:
         WIN.blit(part_label, (WIN_WIDTH - part_label.get_width() - 39, 10))
         WIN.blit(round_label, (WIN_WIDTH - round_label.get_width() - 10, round_label.get_height() + 10))
 
-        for i in range(NUMBER_OF_JARS):
-            draw_jar(WIN, JAR_IMG, i)
+        mouse = pygame.mouse.get_pos()
+        click = pygame.mouse.get_pressed()
 
         for i in range(len(jars)):
-            if jars[i] == KEY:
+            draw_jar(WIN, JAR_IMG, i)
+
+            if jars[i][1] == KEY:
                 draw_key(WIN, KEY_IMG, i)
             else:
                 draw_snake(WIN, SNAKE_IMG, i)
