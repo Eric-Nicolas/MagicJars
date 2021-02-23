@@ -19,7 +19,7 @@ FONT = pygame.font.Font(None, 36)
 IMG_SIDE = 128
 
 JAR_IMG: pygame.Surface = pygame.transform.scale(
-    pygame.image.load(os.path.join('assets', 'jar.png')), (IMG_SIDE, IMG_SIDE))
+            pygame.image.load(os.path.join('assets', 'jar.png')), (128, 128))
 
 KEY_IMG: pygame.Surface = pygame.transform.scale(
     pygame.image.load(os.path.join('assets', 'key.png')), (IMG_SIDE // 2, IMG_SIDE // 2))
@@ -47,7 +47,7 @@ def main() -> None:
     current_round = 1
     color_counter = 0
 
-    jars = custom_array(NUMBER_OF_JARS, JAR_IMG, KEY, SNAKE, current_part)
+    jars = custom_array(NUMBER_OF_JARS, KEY, SNAKE, current_part)
 
     is_running = True
     while is_running:
@@ -62,17 +62,12 @@ def main() -> None:
 
         WIN.fill(ALL_PART_COLORS[color_counter])
 
-        WIN.blit(lives_label, (10, 10))
-        WIN.blit(part_label, (WIN_WIDTH - part_label.get_width() - 39, 10))
-        WIN.blit(round_label, (WIN_WIDTH - round_label.get_width() - 10, round_label.get_height() + 10))
-
-        mouse = pygame.mouse.get_pos()
-        click = pygame.mouse.get_pressed()
+        draw_labels(WIN, (lives_label, part_label, round_label))
 
         for i in range(len(jars)):
             draw_jar(WIN, JAR_IMG, i)
 
-            if jars[i][1] == KEY:
+            if jars[i] == KEY:
                 draw_key(WIN, KEY_IMG, i)
             else:
                 draw_snake(WIN, SNAKE_IMG, i)

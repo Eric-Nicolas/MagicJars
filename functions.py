@@ -5,12 +5,12 @@ import pygame
 __author__ = 'Eric-Nicolas'
 
 
-def custom_array(length: int, jar_img: pygame.Surface, common_value: str, rare_value: str, rare_value_number: int) -> list:
+def custom_array(length: int, common_value: str, rare_value: str, rare_value_number: int) -> list:
     array = []
     for i in range(length - rare_value_number):
-        array.append((jar_img, common_value))
+        array.append(common_value)
     for i in range(rare_value_number):
-        array.append((jar_img, rare_value))
+        array.append(rare_value)
     random.shuffle(array)
     return array
 
@@ -43,6 +43,12 @@ def draw_snake(window: pygame.Surface, snake_img: pygame.Surface, index: int) ->
         )
     )
     window.blit(snake_img, snake_rect)
+
+
+def draw_labels(window: pygame.Surface, labels: tuple) -> None:
+    window.blit(labels[0], (10, 10))
+    window.blit(labels[1], (window.get_width() - labels[1].get_width() - 39, 10))
+    window.blit(labels[2], (window.get_width() - labels[2].get_width() - 10, labels[2].get_height() + 10))
 
 
 def get_user_choice(number_of_jars: int) -> int:
