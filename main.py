@@ -1,6 +1,6 @@
-# coding: utf-8
 import os
 import pygame
+from finger import Finger
 from functions import *
 
 
@@ -20,7 +20,7 @@ FONT = pygame.font.Font(None, 36)
 IMG_SIDE = 128
 
 JAR_IMG = pygame.transform.scale(
-            pygame.image.load(os.path.join('assets', 'jar.png')), (128, 128))
+            pygame.image.load(os.path.join('assets', 'jar.png')), (IMG_SIDE, IMG_SIDE))
 
 KEY_IMG = pygame.transform.scale(
     pygame.image.load(os.path.join('assets', 'key.png')), (IMG_SIDE // 2, IMG_SIDE // 2))
@@ -44,7 +44,7 @@ KEY = 'key'
 SNAKE = 'snake'
 
 
-def main() -> None:
+def main():
     lives = 3
     current_part = 1
     current_round = 1
@@ -52,8 +52,9 @@ def main() -> None:
 
     jars = custom_array(NUMBER_OF_JARS, KEY, SNAKE, current_part)
 
-    is_running = True
-    while is_running:
+    finger = Finger(WIN, IMG_SIDE, NUMBER_OF_JARS)
+
+    while True:
         lives_label = FONT.render("Lives: " + str(lives), True, WHITE)
         part_label = FONT.render("Part: " + str(current_part), True, WHITE)
         round_label = FONT.render("Round: " + str(current_round), True, WHITE)
@@ -62,6 +63,13 @@ def main() -> None:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    finger.move_left()
+                elif event.key == pygame.K_RIGHT:
+                    finger.move_right()
+                elif event.key == pygame.K_RETURN:
+                    pass
 
         WIN.fill(ALL_PART_COLORS[color_counter])
 
@@ -75,7 +83,7 @@ def main() -> None:
             else:
                 draw_snake(WIN, SNAKE_IMG, i)
 
-        WIN.blit(FINGER_IMG, (0, 0))
+        finger.draw(WIN)
 
         pygame.display.update()
         CLOCK.tick(FPS)

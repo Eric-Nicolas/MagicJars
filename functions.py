@@ -1,10 +1,11 @@
-# coding: utf-8
 import random
 
 __author__ = 'Eric-Nicolas'
 
 
 def custom_array(length, common_value, rare_value, rare_value_frequency) -> list:
+    if rare_value_frequency > length:
+        raise IndexError()
     array = []
     for i in range(length - rare_value_frequency):
         array.append(common_value)
