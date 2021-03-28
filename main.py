@@ -1,5 +1,6 @@
 # coding: utf-8
 import os
+import pygame
 from functions import *
 
 
@@ -8,7 +9,7 @@ __author__ = 'Eric-Nicolas'
 pygame.init()
 
 WIN_WIDTH, WIN_HEIGHT = 800, 600
-WIN: pygame.Surface = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
+WIN = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
 pygame.display.set_caption("MagicJars")
 
 FPS = 60
@@ -18,14 +19,16 @@ FONT = pygame.font.Font(None, 36)
 
 IMG_SIDE = 128
 
-JAR_IMG: pygame.Surface = pygame.transform.scale(
+JAR_IMG = pygame.transform.scale(
             pygame.image.load(os.path.join('assets', 'jar.png')), (128, 128))
 
-KEY_IMG: pygame.Surface = pygame.transform.scale(
+KEY_IMG = pygame.transform.scale(
     pygame.image.load(os.path.join('assets', 'key.png')), (IMG_SIDE // 2, IMG_SIDE // 2))
 
-SNAKE_IMG: pygame.Surface = pygame.transform.scale(
+SNAKE_IMG = pygame.transform.scale(
     pygame.image.load(os.path.join('assets', 'snake.png')), (IMG_SIDE // 2, IMG_SIDE // 2))
+
+FINGER_IMG = pygame.image.load(os.path.join('assets', 'finger.png'))
 
 WHITE = (255, 255, 255)
 FIRST_PART_COLOR = (128, 64, 64)
@@ -71,6 +74,8 @@ def main() -> None:
                 draw_key(WIN, KEY_IMG, i)
             else:
                 draw_snake(WIN, SNAKE_IMG, i)
+
+        WIN.blit(FINGER_IMG, (0, 0))
 
         pygame.display.update()
         CLOCK.tick(FPS)
