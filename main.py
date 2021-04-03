@@ -70,14 +70,14 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 is_running = False
-            if event.type == pygame.KEYDOWN:
+            elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     finger.move_left()
                     SELECTION_SOUND.play()
                 elif event.key == pygame.K_RIGHT:
                     finger.move_right()
                     SELECTION_SOUND.play()
-                elif event.key == pygame.K_SPACE:
+                elif event.key == pygame.K_SPACE or event.key == pygame.K_RETURN:
                     for i in range(NUMBER_OF_JARS):
                         finger.can_move = False
                         if finger.selected_item == i:
@@ -89,6 +89,8 @@ def main():
                                 SNAKE_SOUND.play()
                                 snake_drawn = True
                                 break
+                elif event.key == pygame.K_ESCAPE:
+                    is_running = False
 
         WIN.fill(ALL_PART_COLORS[current_part - 1])
 
@@ -109,11 +111,10 @@ def main():
                     current_part += 1
                     if current_part > NUMBER_OF_PARTS:
                         print('You won!')
-                        is_running = False
+                        break
                     current_round = 1
                 jars = custom_array(NUMBER_OF_JARS, KEY, SNAKE, current_part)
                 finger.can_move = True
-
                 key_drawn = False
                 time = 0
         elif snake_drawn:
@@ -123,7 +124,7 @@ def main():
             else:
                 lives -= 1
                 if lives == 0:
-                    is_running = False
+                    break
                 finger.can_move = True
                 snake_drawn = False
                 time = 0
@@ -131,7 +132,7 @@ def main():
         pygame.display.update()
         CLOCK.tick(FPS)
 
-    # If !is_running
+    # If not is_running
     pygame.quit()
     quit()
 
