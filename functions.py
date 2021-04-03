@@ -12,6 +12,11 @@ def custom_array(length, common_value, rare_value, rare_value_frequency) -> list
     for i in range(rare_value_frequency):
         array.append(rare_value)
     random.shuffle(array)
+
+    for i in range(len(array)):
+        if array[i] == rare_value:
+            print(i)
+
     return array
 
 
