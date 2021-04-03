@@ -12,7 +12,8 @@ WIN_WIDTH, WIN_HEIGHT = 800, 600
 WIN = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
 pygame.display.set_caption("MagicJars")
 
-FONT = pygame.font.Font(None, 36)
+LABEL_FONT = pygame.font.Font(None, 36)
+BIG_FONT = pygame.font.Font(None, 120)
 
 IMG_SIDE = 128
 
@@ -60,9 +61,9 @@ def main():
     is_running = True
 
     while is_running:
-        lives_label = FONT.render("Lives: " + str(lives), True, WHITE)
-        part_label = FONT.render("Part: " + str(current_part), True, WHITE)
-        round_label = FONT.render("Round: " + str(current_round), True, WHITE)
+        lives_label = LABEL_FONT.render("Lives: " + str(lives), True, WHITE)
+        part_label = LABEL_FONT.render("Part: " + str(current_part), True, WHITE)
+        round_label = LABEL_FONT.render("Round: " + str(current_round), True, WHITE)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -109,18 +110,16 @@ def main():
 
                 key_drawn = False
                 time = 0
-        else:  # if snake_drawn
+        elif snake_drawn:
             time += 1
             if time <= FPS:
                 draw_snake(WIN, SNAKE_IMG, finger.selected_item)
             else:
                 lives -= 1
                 if lives == 0:
-                    print('You lose')
                     is_running = False
                 finger.can_move = True
                 snake_drawn = False
-                time = 0
 
         pygame.display.update()
         CLOCK.tick(FPS)
