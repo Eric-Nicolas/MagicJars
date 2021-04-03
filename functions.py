@@ -3,7 +3,7 @@ import random
 __author__ = 'Eric-Nicolas'
 
 
-def custom_array(length, common_value, rare_value, rare_value_frequency) -> list:
+def custom_array(length, common_value, rare_value, rare_value_frequency):
     if rare_value_frequency > length:
         raise IndexError()
     array = []
@@ -13,9 +13,7 @@ def custom_array(length, common_value, rare_value, rare_value_frequency) -> list
         array.append(rare_value)
     random.shuffle(array)
 
-    for i in range(len(array)):
-        if array[i] == rare_value:
-            print(i)
+    print(array)
 
     return array
 
@@ -50,7 +48,7 @@ def draw_snake(window, snake_img, index):
     window.blit(snake_img, snake_rect)
 
 
-def draw_labels(window, labels: tuple):
+def draw_labels(window, labels):
     window.blit(labels[0], (10, 10))
     window.blit(labels[1], (window.get_width() - labels[1].get_width() - 39, 10))
     window.blit(labels[2], (window.get_width() - labels[2].get_width() - 10, labels[2].get_height() + 10))

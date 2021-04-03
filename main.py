@@ -12,9 +12,6 @@ WIN_WIDTH, WIN_HEIGHT = 800, 600
 WIN = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
 pygame.display.set_caption("MagicJars")
 
-FPS = 60
-CLOCK = pygame.time.Clock()
-
 FONT = pygame.font.Font(None, 36)
 
 IMG_SIDE = 128
@@ -37,6 +34,9 @@ ALL_PART_COLORS = (
     (64, 0, 0),
     (64, 0, 64)
 )
+
+CLOCK = pygame.time.Clock()
+FPS = 60
 
 NUMBER_OF_JARS = 5
 NUMBER_OF_PARTS = 4
@@ -104,7 +104,7 @@ def main():
                         print('You won!')
                         is_running = False
                     current_round = 1
-                    # jars = custom_array(NUMBER_OF_JARS, KEY, SNAKE, current_part)
+                jars = custom_array(NUMBER_OF_JARS, KEY, SNAKE, current_part)
                 finger.can_move = True
 
                 key_drawn = False
@@ -118,7 +118,7 @@ def main():
                 if lives == 0:
                     print('You lose')
                     is_running = False
-
+                finger.can_move = True
                 snake_drawn = False
                 time = 0
 
