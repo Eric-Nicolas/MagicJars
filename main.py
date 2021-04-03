@@ -1,6 +1,7 @@
 import os
 import pygame
 from finger import Finger
+from menu import Menu
 from functions import *
 
 
@@ -43,7 +44,36 @@ KEY = 'key'
 SNAKE = 'snake'
 
 
-def main():
+def run_game():
+    menu = Menu(WIN)
+
+    is_running = True
+
+    while is_running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                is_running = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_w or event.key == pygame.K_UP:
+                    menu.move_up()
+                elif event.key == pygame.K_s or event.key == pygame.K_DOWN:
+                    menu.move_down()
+                elif event.key == pygame.K_SPACE or event.key == pygame.K_RETURN:
+                    if menu.get_pressed_item() == 0:
+                        menu.play_selected_sound()
+                        launch_game()
+                    elif menu.get_pressed_item() == 1:
+                        is_running = False
+        WIN.fill(ALL_PART_COLORS[0])
+        menu.draw(WIN)
+        pygame.display.update()
+        CLOCK.tick(15)
+
+    pygame.quit()
+    quit()
+
+
+def launch_game():
     lives = 3
     current_part = 1
     current_round = 1
@@ -139,9 +169,12 @@ def main():
         pygame.display.update()
         CLOCK.tick(FPS)
 
-    # If not is_running
     pygame.quit()
     quit()
+
+
+def main():
+    run_game()
 
 
 if __name__ == '__main__':
