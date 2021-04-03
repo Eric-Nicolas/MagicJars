@@ -24,3 +24,6 @@ All the images come from [flaticon](https://www.flaticon.com).
 - [Jar](https://www.flaticon.com/free-icon/vase_821933?term=vase&page=1&position=10&page=1&position=10&related_id=821933&origin=search)
 - [Key](https://www.flaticon.com/free-icon/key_4164393?term=magic%20key&page=1&position=11&page=1&position=11&related_id=4164393&origin=search)
 - [Snake](https://www.flaticon.com/free-icon/snakes_2484671?term=snake&page=1&position=17&page=1&position=17&related_id=2484671&origin=search)
+
+### Sound Effects
+All the sound effects have been made with [Sfxr](https://www.drpetter.se/project_sfxr.html).

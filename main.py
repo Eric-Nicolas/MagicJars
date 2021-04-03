@@ -28,6 +28,7 @@ SNAKE_IMG = pygame.transform.scale(
 
 KEY_SOUND = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'key_picked.wav'))
 SNAKE_SOUND = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'snake_picked.wav'))
+GAME_OVER_SOUND = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'game_over.wav'))
 
 WHITE = (255, 255, 255)
 ALL_PART_COLORS = (
@@ -58,7 +59,8 @@ def main():
     jars = custom_array(NUMBER_OF_JARS, KEY, SNAKE, current_part)
     finger = Finger(WIN, IMG_SIDE, NUMBER_OF_JARS)
 
-    time = 0
+    timer = 0
+    game_over = False
     is_running = True
 
     while is_running:
@@ -91,40 +93,55 @@ def main():
 
         WIN.fill(ALL_PART_COLORS[current_part - 1])
 
-        draw_labels(WIN, lives_label, part_label, round_label)
+        if not game_over:
+            draw_labels(WIN, lives_label, part_label, round_label)
 
-        if not key_drawn and not snake_drawn:
-            for i in range(len(jars)):
-                draw_jar(WIN, JAR_IMG, i)
-            finger.draw(WIN)
-        elif key_drawn:
-            time += 1
-            if time <= FPS:
-                draw_key(WIN, KEY_IMG, finger.selected_item)
+            if not key_drawn and not snake_drawn:
+                for i in range(len(jars)):
+                    draw_jar(WIN, JAR_IMG, i)
+                finger.draw(WIN)
+            elif key_drawn:
+                timer += 1
+                if timer <= FPS:
+                    draw_key(WIN, KEY_IMG, finger.selected_item)
+                else:
+                    # Next round
+                    current_round += 1
+                    if current_round > NUMBER_OF_ROUNDS:
+                        current_part += 1
+                        if current_part > NUMBER_OF_PARTS:
+                            print('You won!')
+                            break
+                        current_round = 1
+                    jars = custom_array(NUMBER_OF_JARS, KEY, SNAKE, current_part)
+                    finger.can_move = True
+                    key_drawn = False
+                    timer = 0
+            elif snake_drawn:
+                timer += 1
+                if timer <= FPS:
+                    draw_snake(WIN, SNAKE_IMG, finger.selected_item)
+                else:
+                    lives -= 1
+                    if lives == 0:
+                        game_over = True
+                    finger.can_move = True
+                    snake_drawn = False
+                    timer = 0
+        else:
+            timer += 1
+            if timer < FPS * 2:
+                if timer == 1:
+                    GAME_OVER_SOUND.play()
+                game_over_label = BIG_FONT.render("Game Over", True, WHITE)
+                game_over_rect = game_over_label.get_rect(
+                    center=(
+                        WIN_WIDTH // 2, WIN_HEIGHT // 2
+                    )
+                )
+                WIN.blit(game_over_label, game_over_rect)
             else:
-                # Next round
-                current_round += 1
-                if current_round > NUMBER_OF_ROUNDS:
-                    current_part += 1
-                    if current_part > NUMBER_OF_PARTS:
-                        print('You won!')
-                        break
-                    current_round = 1
-                jars = custom_array(NUMBER_OF_JARS, KEY, SNAKE, current_part)
-                finger.can_move = True
-                key_drawn = False
-                time = 0
-        elif snake_drawn:
-            time += 1
-            if time <= FPS:
-                draw_snake(WIN, SNAKE_IMG, finger.selected_item)
-            else:
-                lives -= 1
-                if lives == 0:
-                    break
-                finger.can_move = True
-                snake_drawn = False
-                time = 0
+                is_running = False
 
         pygame.display.update()
         CLOCK.tick(FPS)
