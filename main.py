@@ -28,7 +28,6 @@ SNAKE_IMG = pygame.transform.scale(
 
 KEY_SOUND = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'key_picked.wav'))
 SNAKE_SOUND = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'snake_picked.wav'))
-SELECTION_SOUND = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'selection.wav'))
 
 WHITE = (255, 255, 255)
 ALL_PART_COLORS = (
@@ -73,10 +72,8 @@ def main():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     finger.move_left()
-                    SELECTION_SOUND.play()
                 elif event.key == pygame.K_RIGHT:
                     finger.move_right()
-                    SELECTION_SOUND.play()
                 elif event.key == pygame.K_SPACE or event.key == pygame.K_RETURN:
                     for i in range(NUMBER_OF_JARS):
                         finger.can_move = False

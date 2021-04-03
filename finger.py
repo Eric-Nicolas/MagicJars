@@ -8,7 +8,8 @@ class Finger(pygame.sprite.Sprite):
         self._LENGTH = length
         self._WIDTH = window.get_width()
         self._SIDE = side
-        self._IMG = pygame.image.load(os.path.join('assets','img', 'finger.png'))
+        self._IMG = pygame.image.load(os.path.join('assets', 'img', 'finger.png'))
+        self._SFX = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'selection.wav'))
         self._selected_item = 0
 
         self._x = (self._WIDTH - self._IMG.get_width()) // 5 - self._IMG.get_width()
@@ -32,11 +33,13 @@ class Finger(pygame.sprite.Sprite):
         if self._can_move and self._selected_item - 1 >= 0:
             self._selected_item -= 1
             self._x -= self._SIDE
+            self._SFX.play()
 
     def move_right(self):
         if self._can_move and self._selected_item + 1 < self._LENGTH:
             self._selected_item += 1
             self._x += self._SIDE
+            self._SFX.play()
 
     def draw(self, window):
         window.blit(self._IMG, (self._x, self._Y))
