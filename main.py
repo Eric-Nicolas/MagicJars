@@ -91,7 +91,7 @@ def main():
 
         WIN.fill(ALL_PART_COLORS[current_part - 1])
 
-        draw_labels(WIN, (lives_label, part_label, round_label))
+        draw_labels(WIN, lives_label, part_label, round_label)
 
         if not key_drawn and not snake_drawn:
             for i in range(len(jars)):
