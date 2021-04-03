@@ -31,11 +31,12 @@ SNAKE_IMG = pygame.transform.scale(
 FINGER_IMG = pygame.image.load(os.path.join('assets', 'finger.png'))
 
 WHITE = (255, 255, 255)
-FIRST_PART_COLOR = (128, 64, 64)
-SECOND_PART_COLOR = (128, 0, 0)
-THIRD_PART_COLOR = (64, 0, 0)
-FOURTH_PART_COLOR = (64, 0, 64)
-ALL_PART_COLORS = [FIRST_PART_COLOR, SECOND_PART_COLOR, THIRD_PART_COLOR, FOURTH_PART_COLOR]
+ALL_PART_COLORS = (
+    (128, 64, 64),
+    (128, 0, 0),
+    (64, 0, 0),
+    (64, 0, 64)
+)
 
 NUMBER_OF_JARS = 5
 NUMBER_OF_PARTS = 4
