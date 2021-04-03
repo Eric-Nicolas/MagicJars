@@ -54,17 +54,3 @@ def draw_labels(window, labels: tuple):
     window.blit(labels[0], (10, 10))
     window.blit(labels[1], (window.get_width() - labels[1].get_width() - 39, 10))
     window.blit(labels[2], (window.get_width() - labels[2].get_width() - 10, labels[2].get_height() + 10))
-
-
-def get_user_choice(number_of_jars):
-    user_choice = 0
-    while user_choice == 0:
-        user_choice = input("Choose a jar between the n°1 and the n°" + str(number_of_jars) + ": ")
-        try:
-            user_choice = int(user_choice)
-            if user_choice < 1 or user_choice > number_of_jars:
-                raise ValueError
-        except ValueError:
-            print("Please enter a number between 1 and " + str(number_of_jars) + "!\n")
-            user_choice = 0
-    return user_choice
