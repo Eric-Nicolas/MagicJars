@@ -130,9 +130,7 @@ def main():
                     GAME_OVER_SOUND.play()
                 game_over_label = BIG_FONT.render("Game Over", True, WHITE)
                 game_over_rect = game_over_label.get_rect(
-                    center=(
-                        WIN_WIDTH // 2, WIN_HEIGHT // 2
-                    )
+                    center=(WIN_WIDTH // 2, WIN_HEIGHT // 2)
                 )
                 WIN.blit(game_over_label, game_over_rect)
             else:
