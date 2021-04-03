@@ -17,14 +17,9 @@ BIG_FONT = pygame.font.Font(None, 120)
 
 IMG_SIDE = 128
 
-JAR_IMG = pygame.transform.scale(
-            pygame.image.load(os.path.join('assets', 'img', 'jar.png')), (IMG_SIDE, IMG_SIDE))
-
-KEY_IMG = pygame.transform.scale(
-    pygame.image.load(os.path.join('assets', 'img', 'key.png')), (IMG_SIDE // 2, IMG_SIDE // 2))
-
-SNAKE_IMG = pygame.transform.scale(
-    pygame.image.load(os.path.join('assets', 'img', 'snake.png')), (IMG_SIDE // 2, IMG_SIDE // 2))
+JAR_IMG = pygame.image.load(os.path.join('assets', 'img', 'jar.png'))
+KEY_IMG = pygame.image.load(os.path.join('assets', 'img', 'key.png'))
+SNAKE_IMG = pygame.image.load(os.path.join('assets', 'img', 'snake.png'))
 
 KEY_SOUND = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'key_picked.wav'))
 SNAKE_SOUND = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'snake_picked.wav'))
@@ -130,7 +125,7 @@ def main():
                     timer = 0
         else:
             timer += 1
-            if timer < FPS * 2:
+            if timer < FPS:
                 if timer == 1:
                     GAME_OVER_SOUND.play()
                 game_over_label = BIG_FONT.render("Game Over", True, WHITE)
