@@ -8,7 +8,7 @@ class Finger(pygame.sprite.Sprite):
         self._LENGTH = length
         self._WIDTH = window.get_width()
         self._SIDE = side
-        self._IMG = pygame.image.load(os.path.join('assets', 'finger.png'))
+        self._IMG = pygame.image.load(os.path.join('assets','img', 'finger.png'))
         self._selected_item = 0
 
         self._x = (self._WIDTH - self._IMG.get_width()) // 5 - self._IMG.get_width()

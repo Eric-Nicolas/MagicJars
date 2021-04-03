@@ -18,15 +18,13 @@ BIG_FONT = pygame.font.Font(None, 120)
 IMG_SIDE = 128
 
 JAR_IMG = pygame.transform.scale(
-            pygame.image.load(os.path.join('assets', 'jar.png')), (IMG_SIDE, IMG_SIDE))
+            pygame.image.load(os.path.join('assets', 'img', 'jar.png')), (IMG_SIDE, IMG_SIDE))
 
 KEY_IMG = pygame.transform.scale(
-    pygame.image.load(os.path.join('assets', 'key.png')), (IMG_SIDE // 2, IMG_SIDE // 2))
+    pygame.image.load(os.path.join('assets', 'img', 'key.png')), (IMG_SIDE // 2, IMG_SIDE // 2))
 
 SNAKE_IMG = pygame.transform.scale(
-    pygame.image.load(os.path.join('assets', 'snake.png')), (IMG_SIDE // 2, IMG_SIDE // 2))
-
-FINGER_IMG = pygame.image.load(os.path.join('assets', 'finger.png'))
+    pygame.image.load(os.path.join('assets', 'img', 'snake.png')), (IMG_SIDE // 2, IMG_SIDE // 2))
 
 WHITE = (255, 255, 255)
 ALL_PART_COLORS = (
