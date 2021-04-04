@@ -12,15 +12,17 @@ class Game:
         self._WIN_WIDTH, self._WIN_HEIGHT = 800, 600
         self._WIN = pygame.display.set_mode((self._WIN_WIDTH, self._WIN_HEIGHT))
         pygame.display.set_caption("MagicJars")
+        pygame.mouse.set_visible(False)
+
+        self._IMG_SIDE = 128
+        self._JAR_IMG = pygame.image.load(os.path.join('assets', 'img', 'jar.png'))
+        pygame.display.set_icon(self._JAR_IMG)
+
+        self._KEY_IMG = pygame.image.load(os.path.join('assets', 'img', 'key.png'))
+        self._SNAKE_IMG = pygame.image.load(os.path.join('assets', 'img', 'snake.png'))
 
         self._LABEL_FONT = pygame.font.Font(None, 36)
         self._BIG_FONT = pygame.font.Font(None, 120)
-
-        self._IMG_SIDE = 128
-
-        self._JAR_IMG = pygame.image.load(os.path.join('assets', 'img', 'jar.png'))
-        self._KEY_IMG = pygame.image.load(os.path.join('assets', 'img', 'key.png'))
-        self._SNAKE_IMG = pygame.image.load(os.path.join('assets', 'img', 'snake.png'))
 
         self._KEY_SOUND = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'key_picked.wav'))
         self._SNAKE_SOUND = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'snake_picked.wav'))
