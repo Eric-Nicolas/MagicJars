@@ -172,6 +172,13 @@ class Game:
             self._snake_drawn = False
             self._timer = 0
 
+    def manage_jars_display(self):
+        for i in range(len(self._jars)):
+            if not self._key_drawn and not self._snake_drawn:
+                draw_jar(self._WIN, self._JAR_IMG, i)
+            elif self._finger.selected_item != i:
+                draw_jar(self._WIN, self._UNUSED_JAR_IMG, i)
+
     def win_screen(self):
         self._timer += 1
         if self._timer < self._FPS:
@@ -213,11 +220,7 @@ class Game:
             if not self._has_won and not self._game_over:
                 draw_labels(self._WIN, lives_label, part_label, round_label)
 
-                for i in range(len(self._jars)):
-                    if not self._key_drawn and not self._snake_drawn:
-                        draw_jar(self._WIN, self._JAR_IMG, i)
-                    elif self._finger.selected_item != i:
-                        draw_jar(self._WIN, self._UNUSED_JAR_IMG, i)
+                self.manage_jars_display()
 
                 if not self._key_drawn and not self._snake_drawn:
                     self._finger.draw(self._WIN)
@@ -245,11 +248,7 @@ class Game:
             if not self._game_over:
                 draw_labels(self._WIN, lives_label, round_label)
 
-                for i in range(len(self._jars)):
-                    if not self._key_drawn and not self._snake_drawn:
-                        draw_jar(self._WIN, self._JAR_IMG, i)
-                    elif self._finger.selected_item != i:
-                        draw_jar(self._WIN, self._UNUSED_JAR_IMG, i)
+                self.manage_jars_display()
 
                 self._finger.draw(self._WIN)
                 if self._key_drawn:
