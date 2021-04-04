@@ -41,7 +41,7 @@ class Menu:
         self._SELECTION_SOUND = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'selection.wav'))
         self._SELECTED_SOUND = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'selected.wav'))
 
-        self._labels = [Label("Play", self._BLACK), Label("Quit", self._WHITE)]
+        self._labels = [Label('Play', self._BLACK), Label('Endless Mode', self._WHITE), Label('Quit', self._WHITE)]
 
         for i in range(len(self._labels)):
             self._labels[i].set_font(self._FONT)

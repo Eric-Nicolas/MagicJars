@@ -78,10 +78,12 @@ class Game:
                 elif event.key == pygame.K_s or event.key == pygame.K_DOWN:
                     menu.move_down()
                 elif event.key == pygame.K_SPACE or event.key == pygame.K_RETURN:
+                    menu.play_selected_sound()
                     if menu.get_pressed_item() == 0:
-                        menu.play_selected_sound()
                         self.launch()
                     elif menu.get_pressed_item() == 1:
+                        self.endless_mode()
+                    elif menu.get_pressed_item() == 2:
                         self.quit_game()
 
     def run(self):
@@ -119,16 +121,19 @@ class Game:
                 elif event.key == pygame.K_ESCAPE:
                     self.quit_game()
 
-    def handle_key(self):
+    def handle_key(self, endless):
         self._timer += 1
         if self._timer <= self._FPS:
             draw_key(self._WIN, self._KEY_IMG, self._finger.selected_item)
         else:
-            self._current_round += 1
-            if self._current_round > self._NUMBER_OF_ROUNDS:
-                self._current_part += 1
-                self._current_round = 1
-            self._jars = custom_array(self._NUMBER_OF_JARS, self._KEY, self._SNAKE, self._current_part)
+            if not endless:
+                self._current_round += 1
+                if self._current_round > self._NUMBER_OF_ROUNDS:
+                    self._current_part += 1
+                    self._current_round = 1
+                self._jars = custom_array(self._NUMBER_OF_JARS, self._KEY, self._SNAKE, self._current_part)
+            else:
+                self._jars = custom_array(self._NUMBER_OF_JARS, self._KEY, self._SNAKE, random.randrange(0, self._NUMBER_OF_JARS))
             self._finger.can_move = True
             self._key_drawn = False
             self._timer = 0
@@ -188,11 +193,34 @@ class Game:
                         draw_jar(self._WIN, self._JAR_IMG, i)
                     self._finger.draw(self._WIN)
                 elif self._key_drawn:
-                    self.handle_key()
+                    self.handle_key(False)
                 elif self._snake_drawn:
                     self.handle_snake()
             elif self._has_won:
                 self.win_screen()
+            else:
+                self.game_over_screen()
+
+            pygame.display.update()
+            self._CLOCK.tick(self._FPS)
+
+    def endless_mode(self):
+        while True:
+            lives_label = self._LABEL_FONT.render("Lives: " + str(self._lives), True, self._WHITE)
+
+            self.check_game_events()
+            self._WIN.fill(self._BLACK)
+
+            if not self._game_over:
+                draw_labels(self._WIN, lives_label)
+                if not self._key_drawn and not self._snake_drawn:
+                    for i in range(len(self._jars)):
+                        draw_jar(self._WIN, self._JAR_IMG, i)
+                    self._finger.draw(self._WIN)
+                elif self._key_drawn:
+                    self.handle_key(True)
+                elif self._snake_drawn:
+                    self.handle_snake()
             else:
                 self.game_over_screen()
 
