@@ -20,6 +20,7 @@ class Game:
 
         self._KEY_IMG = pygame.image.load(os.path.join('assets', 'img', 'key.png'))
         self._SNAKE_IMG = pygame.image.load(os.path.join('assets', 'img', 'snake.png'))
+        self._CAVE_IMG = pygame.image.load(os.path.join('assets', 'img', 'cave.png'))
 
         self._LABEL_FONT = pygame.font.Font(None, 36)
         self._BIG_FONT = pygame.font.Font(None, 120)
@@ -92,6 +93,7 @@ class Game:
             self.check_events(menu)
 
             self._WIN.fill(self._ALL_PART_COLORS[0])
+            self._WIN.blit(self._CAVE_IMG, (0, 0))
             menu.draw(self._WIN)
 
             pygame.display.update()
@@ -186,6 +188,8 @@ class Game:
             except IndexError:  # If all the parts are done
                 self._has_won = True
 
+            self._WIN.blit(self._CAVE_IMG, (0, 0))
+
             if not self._has_won and not self._game_over:
                 draw_labels(self._WIN, lives_label, part_label, round_label)
                 if not self._key_drawn and not self._snake_drawn:
@@ -210,6 +214,7 @@ class Game:
 
             self.check_game_events()
             self._WIN.fill(self._BLACK)
+            self._WIN.blit(self._CAVE_IMG, (0, 0))
 
             if not self._game_over:
                 draw_labels(self._WIN, lives_label)
