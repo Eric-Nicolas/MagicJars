@@ -17,6 +17,7 @@ class Game:
         self._JAR_IMG = pygame.image.load(os.path.join('assets', 'img', 'jar.png'))
         pygame.display.set_icon(self._JAR_IMG)
 
+        self._UNUSED_JAR_IMG = pygame.image.load(os.path.join('assets', 'img', 'unused_jar.png'))
         self._KEY_IMG = pygame.image.load(os.path.join('assets', 'img', 'key.png'))
         self._SNAKE_IMG = pygame.image.load(os.path.join('assets', 'img', 'snake.png'))
         self._CAVE_IMG = pygame.image.load(os.path.join('assets', 'img', 'cave.png'))
@@ -210,13 +211,18 @@ class Game:
 
             if not self._has_won and not self._game_over:
                 draw_labels(self._WIN, lives_label, part_label, round_label)
-                if not self._key_drawn and not self._snake_drawn:
-                    for i in range(len(self._jars)):
+
+                for i in range(len(self._jars)):
+                    if not self._key_drawn and not self._snake_drawn:
                         draw_jar(self._WIN, self._JAR_IMG, i)
+                    elif self._finger.selected_item != i:
+                        draw_jar(self._WIN, self._UNUSED_JAR_IMG, i)
+
+                if not self._key_drawn and not self._snake_drawn:
                     self._finger.draw(self._WIN)
                 elif self._key_drawn:
                     self.handle_key(False)
-                elif self._snake_drawn:
+                else:
                     self.handle_snake()
             elif self._has_won:
                 self.win_screen()
