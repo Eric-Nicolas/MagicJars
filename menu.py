@@ -26,7 +26,7 @@ class Label:
 
 
 class Menu:
-    def __init__(self, window):
+    def __init__(self, window, title, *texts):
         WIDTH, HEIGHT = window.get_width(), window.get_height()
         self._FONT = pygame.font.Font(None, 36)
         self._BIG_FONT = pygame.font.Font(None, 60)
@@ -34,7 +34,7 @@ class Menu:
         self._WHITE = (255, 255, 255)
 
         self._selected_item = 0
-        self._TITLE = Label("Magic Jars", self._WHITE, self._BIG_FONT)
+        self._TITLE = Label(title, self._WHITE, self._BIG_FONT)
         self._TITLE_WIDTH = self._TITLE.get_width()
         self._TITLE.set_pos(((WIDTH - self._TITLE_WIDTH) // 2, 20))
 
@@ -42,10 +42,11 @@ class Menu:
         self._SELECTED_SOUND = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'selected.wav'))
         self._BLOCKED_SOUND = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'blocked.wav'))
 
-        self._labels = [Label('Play', self._BLACK), Label('Endless Mode', self._WHITE), Label('Quit', self._WHITE)]
+        self._labels = [Label(texts[0], self._BLACK, self._FONT)]
+        for i in range(1, len(texts)):
+            self._labels.append(Label(texts[i], self._WHITE, self._FONT))
 
         for i in range(len(self._labels)):
-            self._labels[i].set_font(self._FONT)
             self._labels[i].set_pos(((WIDTH - self._TITLE_WIDTH) // 2, HEIGHT // (len(self._labels) + 1) * (i + 1)))
 
     def get_pressed_item(self):

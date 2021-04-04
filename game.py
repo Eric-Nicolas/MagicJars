@@ -90,7 +90,7 @@ class Game:
                     self.quit_game()
 
     def run(self):
-        menu = Menu(self._WIN)
+        menu = Menu(self._WIN, "Magic Jars", "Play", "Endless Mode", "Quit")
         while True:
             self.check_events(menu)
 
