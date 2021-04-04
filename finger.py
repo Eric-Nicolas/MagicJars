@@ -31,7 +31,7 @@ class Finger(pygame.sprite.Sprite):
         self._can_move = value
 
     def move_left(self):
-        if self._can_move and self._selected_item - 1 >= 0:
+        if self._selected_item - 1 >= 0:
             self._selected_item -= 1
             self._x -= self._SIDE
             self._SELECTION_SOUND.play()
@@ -39,7 +39,7 @@ class Finger(pygame.sprite.Sprite):
             self._BLOCKED_SOUND.play()
 
     def move_right(self):
-        if self._can_move and self._selected_item + 1 < self._LENGTH:
+        if self._selected_item + 1 < self._LENGTH:
             self._selected_item += 1
             self._x += self._SIDE
             self._SELECTION_SOUND.play()

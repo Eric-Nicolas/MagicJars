@@ -12,7 +12,6 @@ class Game:
         self._WIN_WIDTH, self._WIN_HEIGHT = 800, 600
         self._WIN = pygame.display.set_mode((self._WIN_WIDTH, self._WIN_HEIGHT))
         pygame.display.set_caption("MagicJars")
-        pygame.mouse.set_visible(False)
 
         self._JAR_IMG = pygame.image.load(os.path.join('assets', 'img', 'jar.png'))
         pygame.display.set_icon(self._JAR_IMG)
@@ -124,23 +123,24 @@ class Game:
             if event.type == pygame.QUIT:
                 self.quit_game()
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    self._finger.move_left()
-                elif event.key == pygame.K_RIGHT:
-                    self._finger.move_right()
-                elif event.key == pygame.K_SPACE or event.key == pygame.K_RETURN:
-                    for i in range(self._NUMBER_OF_JARS):
-                        self._finger.can_move = False
-                        if self._finger.selected_item == i:
-                            if self._jars[i] == self._KEY:
-                                self._KEY_SOUND.play()
-                                self._key_drawn = True
-                                break
-                            else:
-                                self._SNAKE_SOUND.play()
-                                self._snake_drawn = True
-                                break
-                elif event.key == pygame.K_ESCAPE:
+                if not (self._has_won or self._game_over) and self._finger.can_move:
+                    if event.key == pygame.K_LEFT:
+                        self._finger.move_left()
+                    elif event.key == pygame.K_RIGHT:
+                        self._finger.move_right()
+                    elif event.key == pygame.K_SPACE or event.key == pygame.K_RETURN:
+                        for i in range(self._NUMBER_OF_JARS):
+                            self._finger.can_move = False
+                            if self._finger.selected_item == i:
+                                if self._jars[i] == self._KEY:
+                                    self._KEY_SOUND.play()
+                                    self._key_drawn = True
+                                    break
+                                else:
+                                    self._SNAKE_SOUND.play()
+                                    self._snake_drawn = True
+                                    break
+                if event.key == pygame.K_ESCAPE:
                     self.quit_game()
 
     def handle_key(self, endless):
