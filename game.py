@@ -28,6 +28,7 @@ class Game:
         self._KEY_SOUND = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'key_picked.wav'))
         self._SNAKE_SOUND = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'snake_picked.wav'))
         self._GAME_OVER_SOUND = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'game_over.wav'))
+        self._WIN_SOUND = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'win.wav'))
 
         self._BLACK = (0, 0, 0)
         self._WHITE = (255, 255, 255)
@@ -155,8 +156,8 @@ class Game:
     def win_screen(self):
         self._timer += 1
         if self._timer < self._FPS:
-            # if self._timer == 1:
-            #     self._GAME_OVER_SOUND.play()
+            if self._timer == 1:
+                self._WIN_SOUND.play()
             win_rect = self._WIN_LABEL.get_rect(
                 center=(self._WIN_WIDTH // 2, self._WIN_HEIGHT // 2)
             )
