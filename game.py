@@ -219,9 +219,7 @@ class Game:
 
             if not self._has_won and not self._game_over:
                 draw_labels(self._WIN, lives_label, part_label, round_label)
-
                 self.manage_jars_display()
-
                 if not self._key_drawn and not self._snake_drawn:
                     self._finger.draw(self._WIN)
                 elif self._key_drawn:
@@ -247,13 +245,13 @@ class Game:
 
             if not self._game_over:
                 draw_labels(self._WIN, lives_label, round_label)
-
                 self.manage_jars_display()
 
-                self._finger.draw(self._WIN)
-                if self._key_drawn:
+                if not self._key_drawn and not self._snake_drawn:
+                    self._finger.draw(self._WIN)
+                elif self._key_drawn:
                     self.handle_key(True)
-                elif self._snake_drawn:
+                else:
                     self.handle_snake()
             else:
                 self.game_over_screen()
