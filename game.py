@@ -24,6 +24,7 @@ class Game:
 
         self._LABEL_FONT = pygame.font.Font(None, 36)
         self._BIG_FONT = pygame.font.Font(None, 120)
+        print(pygame.font.get_default_font())
 
         self._KEY_SOUND = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'key_picked.wav'))
         self._SNAKE_SOUND = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'snake_picked.wav'))
@@ -243,11 +244,15 @@ class Game:
 
             if not self._game_over:
                 draw_labels(self._WIN, lives_label, round_label)
-                if not self._key_drawn and not self._snake_drawn:
-                    for i in range(len(self._jars)):
+
+                for i in range(len(self._jars)):
+                    if not self._key_drawn and not self._snake_drawn:
                         draw_jar(self._WIN, self._JAR_IMG, i)
-                    self._finger.draw(self._WIN)
-                elif self._key_drawn:
+                    elif self._finger.selected_item != i:
+                        draw_jar(self._WIN, self._UNUSED_JAR_IMG, i)
+
+                self._finger.draw(self._WIN)
+                if self._key_drawn:
                     self.handle_key(True)
                 elif self._snake_drawn:
                     self.handle_snake()

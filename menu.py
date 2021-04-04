@@ -28,8 +28,8 @@ class Label:
 class Menu:
     def __init__(self, window, title, *texts):
         WIDTH, HEIGHT = window.get_width(), window.get_height()
-        self._FONT = pygame.font.Font(None, 36)
-        self._BIG_FONT = pygame.font.Font(None, 60)
+        self._FONT = pygame.font.Font(os.path.join('assets', 'fonts', 'GoogleSans-Bold.ttf'), 36)
+        self._BIG_FONT = pygame.font.Font(os.path.join('assets', 'fonts', 'GoogleSans-Bold.ttf'), 60)
         self._BLACK = (0, 0, 0)
         self._WHITE = (255, 255, 255)
 
