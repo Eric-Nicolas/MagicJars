@@ -213,7 +213,7 @@ class Game:
             lives_label = self._LABEL_FONT.render("Lives: " + str(self._lives), True, self._WHITE)
 
             self.check_game_events()
-            self._WIN.fill(self._BLACK)
+            self._WIN.fill(self._ALL_PART_COLORS[2])
             self._WIN.blit(self._CAVE_IMG, (0, 0))
 
             if not self._game_over:

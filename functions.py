@@ -22,7 +22,7 @@ def draw_jar(window, jar_img, index):
     jar_rect = jar_img.get_rect(
         center=(
             window.get_width() // 5 - jar_img.get_width() // 5 + jar_img.get_width() * index,
-            window.get_height() // 2
+            window.get_height() // 3 + jar_img.get_height() * 2 + 1
         )
     )
     window.blit(jar_img, jar_rect)
@@ -32,7 +32,7 @@ def draw_key(window, key_img, index):
     key_rect = key_img.get_rect(
         center=(
             window.get_width() // 5 - key_img.get_width() // 5 + key_img.get_width() * 2 * index - 10,
-            window.get_height() // 2 + 6
+            window.get_height() // 2 + key_img.get_height() * 2 + 30
         )
     )
     window.blit(key_img, key_rect)
@@ -42,7 +42,7 @@ def draw_snake(window, snake_img, index):
     snake_rect = snake_img.get_rect(
         center=(
             window.get_width() // 5 - snake_img.get_width() // 5 + snake_img.get_width() * 2 * index - 11,
-            window.get_height() // 2
+            window.get_height() // 2 + snake_img.get_height() * 2 + 30
         )
     )
     window.blit(snake_img, snake_rect)

@@ -14,7 +14,7 @@ class Finger(pygame.sprite.Sprite):
         self._selected_item = 0
 
         self._x = (self._WIDTH - self._IMG.get_width()) // 5 - self._IMG.get_width()
-        self._Y = window.get_height() // 3 * 2
+        self._Y = window.get_height() // 2 + self._IMG.get_height()
 
         self._can_move = True
 
