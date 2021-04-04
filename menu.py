@@ -40,6 +40,7 @@ class Menu:
 
         self._SELECTION_SOUND = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'selection.wav'))
         self._SELECTED_SOUND = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'selected.wav'))
+        self._BLOCKED_SOUND = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'blocked.wav'))
 
         self._labels = [Label('Play', self._BLACK), Label('Endless Mode', self._WHITE), Label('Quit', self._WHITE)]
 
@@ -56,6 +57,8 @@ class Menu:
             self._selected_item -= 1
             self._labels[self._selected_item].set_color(self._BLACK)
             self._SELECTION_SOUND.play()
+        else:
+            self._BLOCKED_SOUND.play()
 
     def move_down(self):
         if self._selected_item + 1 < len(self._labels):
@@ -63,6 +66,8 @@ class Menu:
             self._selected_item += 1
             self._labels[self._selected_item].set_color(self._BLACK)
             self._SELECTION_SOUND.play()
+        else:
+            self._BLOCKED_SOUND.play()
 
     def play_selected_sound(self):
         self._SELECTED_SOUND.play()

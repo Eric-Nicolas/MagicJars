@@ -3,13 +3,14 @@ import pygame
 
 
 class Finger(pygame.sprite.Sprite):
-    def __init__(self, window, side, length):
+    def __init__(self, window, length):
         super().__init__()
         self._LENGTH = length
         self._WIDTH = window.get_width()
-        self._SIDE = side
+        self._SIDE = 128
         self._IMG = pygame.image.load(os.path.join('assets', 'img', 'finger.png'))
-        self._SFX = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'selection.wav'))
+        self._SELECTION_SOUND = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'selection.wav'))
+        self._BLOCKED_SOUND = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'blocked.wav'))
         self._selected_item = 0
 
         self._x = (self._WIDTH - self._IMG.get_width()) // 5 - self._IMG.get_width()
@@ -33,13 +34,17 @@ class Finger(pygame.sprite.Sprite):
         if self._can_move and self._selected_item - 1 >= 0:
             self._selected_item -= 1
             self._x -= self._SIDE
-            self._SFX.play()
+            self._SELECTION_SOUND.play()
+        else:
+            self._BLOCKED_SOUND.play()
 
     def move_right(self):
         if self._can_move and self._selected_item + 1 < self._LENGTH:
             self._selected_item += 1
             self._x += self._SIDE
-            self._SFX.play()
+            self._SELECTION_SOUND.play()
+        else:
+            self._BLOCKED_SOUND.play()
 
     def draw(self, window):
         window.blit(self._IMG, (self._x, self._Y))

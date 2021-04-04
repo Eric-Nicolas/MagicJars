@@ -14,7 +14,6 @@ class Game:
         pygame.display.set_caption("MagicJars")
         pygame.mouse.set_visible(False)
 
-        self._IMG_SIDE = 128
         self._JAR_IMG = pygame.image.load(os.path.join('assets', 'img', 'jar.png'))
         pygame.display.set_icon(self._JAR_IMG)
 
@@ -59,7 +58,7 @@ class Game:
         self._snake_drawn = False
 
         self._jars = custom_array(self._NUMBER_OF_JARS, self._KEY, self._SNAKE, self._current_part)
-        self._finger = Finger(self._WIN, self._IMG_SIDE, self._NUMBER_OF_JARS)
+        self._finger = Finger(self._WIN, self._NUMBER_OF_JARS)
 
         self._timer = 0
         self._has_won = False
