@@ -86,6 +86,8 @@ class Game:
                         self.endless_mode()
                     elif menu.get_pressed_item() == 2:
                         self.quit_game()
+                elif event.key == pygame.K_ESCAPE:
+                    self.quit_game()
 
     def run(self):
         menu = Menu(self._WIN)
@@ -128,14 +130,14 @@ class Game:
         if self._timer <= self._FPS:
             draw_key(self._WIN, self._KEY_IMG, self._finger.selected_item)
         else:
+            self._current_round += 1
             if not endless:
-                self._current_round += 1
                 if self._current_round > self._NUMBER_OF_ROUNDS:
                     self._current_part += 1
                     self._current_round = 1
                 self._jars = custom_array(self._NUMBER_OF_JARS, self._KEY, self._SNAKE, self._current_part)
             else:
-                self._jars = custom_array(self._NUMBER_OF_JARS, self._KEY, self._SNAKE, random.randrange(0, self._NUMBER_OF_JARS))
+                self._jars = custom_array(self._NUMBER_OF_JARS, self._KEY, self._SNAKE, 1)
             self._finger.can_move = True
             self._key_drawn = False
             self._timer = 0
@@ -211,13 +213,14 @@ class Game:
     def endless_mode(self):
         while True:
             lives_label = self._LABEL_FONT.render("Lives: " + str(self._lives), True, self._WHITE)
+            round_label = self._LABEL_FONT.render("Round: " + str(self._current_round), True, self._WHITE)
 
             self.check_game_events()
             self._WIN.fill(self._ALL_PART_COLORS[2])
             self._WIN.blit(self._CAVE_IMG, (0, 0))
 
             if not self._game_over:
-                draw_labels(self._WIN, lives_label)
+                draw_labels(self._WIN, lives_label, round_label)
                 if not self._key_drawn and not self._snake_drawn:
                     for i in range(len(self._jars)):
                         draw_jar(self._WIN, self._JAR_IMG, i)
