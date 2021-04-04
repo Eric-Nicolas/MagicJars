@@ -30,7 +30,6 @@ class Game:
         self._GAME_OVER_SOUND = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'game_over.wav'))
         self._WIN_SOUND = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'win.wav'))
 
-        self._BLACK = (0, 0, 0)
         self._WHITE = (255, 255, 255)
         self._ALL_PART_COLORS = (
             (128, 64, 64),
@@ -54,7 +53,6 @@ class Game:
         self._lives = 3
         self._current_part = 1
         self._current_round = 1
-
         self._key_drawn = False
         self._snake_drawn = False
 
@@ -145,7 +143,7 @@ class Game:
 
     def handle_key(self, endless):
         self._timer += 1
-        if self._timer <= self._FPS:
+        if self._timer <= self._FPS // 3 * 2:
             draw_key(self._WIN, self._KEY_IMG, self._finger.selected_item)
         else:
             self._current_round += 1
@@ -162,7 +160,7 @@ class Game:
 
     def handle_snake(self):
         self._timer += 1
-        if self._timer <= self._FPS:
+        if self._timer <= self._FPS // 3 * 2:
             draw_snake(self._WIN, self._SNAKE_IMG, self._finger.selected_item)
         else:
             self._lives -= 1
