@@ -69,7 +69,7 @@ class Game:
         pygame.quit()
         quit()
 
-    def check_events(self, menu):
+    def check_events(self, menu, sub):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.quit_game()
@@ -81,22 +81,38 @@ class Game:
                 elif event.key == pygame.K_SPACE or event.key == pygame.K_RETURN:
                     menu.play_selected_sound()
                     if menu.get_pressed_item() == 0:
-                        self.launch()
+                        if not sub:
+                            self.launch_submenu()
+                        else:
+                            self.main_game()
                     elif menu.get_pressed_item() == 1:
-                        self.endless_mode()
-                    elif menu.get_pressed_item() == 2:
-                        self.quit_game()
+                        if not sub:
+                            self.quit_game()
+                        else:
+                            self.endless_mode()
                 elif event.key == pygame.K_ESCAPE:
                     self.quit_game()
 
     def run(self):
-        menu = Menu(self._WIN, "Magic Jars", "Play", "Endless Mode", "Quit")
+        menu = Menu(self._WIN, "Magic Jars", "Play", "Quit")
         while True:
-            self.check_events(menu)
+            self.check_events(menu, False)
 
             self._WIN.fill(self._ALL_PART_COLORS[0])
             self._WIN.blit(self._CAVE_IMG, (0, 0))
             menu.draw(self._WIN)
+
+            pygame.display.update()
+            self._CLOCK.tick(15)
+
+    def launch_submenu(self):
+        sub_menu = Menu(self._WIN, "Select mode", "Regular", "Endless")
+        while True:
+            self.check_events(sub_menu, True)
+
+            self._WIN.fill(self._ALL_PART_COLORS[0])
+            self._WIN.blit(self._CAVE_IMG, (0, 0))
+            sub_menu.draw(self._WIN)
 
             pygame.display.update()
             self._CLOCK.tick(15)
@@ -178,7 +194,7 @@ class Game:
         else:
             self.quit_game()
 
-    def launch(self):
+    def main_game(self):
         while True:
             lives_label = self._LABEL_FONT.render("Lives: " + str(self._lives), True, self._WHITE)
             part_label = self._LABEL_FONT.render("Part: " + str(self._current_part), True, self._WHITE)
