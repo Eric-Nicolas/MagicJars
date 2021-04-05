@@ -48,9 +48,10 @@ def draw_snake(window, snake_img, index):
     window.blit(snake_img, snake_rect)
 
 
-def draw_labels(window, *labels):
-    window.blit(labels[0], (10, 10))
-    if len(labels) > 1:
-        window.blit(labels[1], (window.get_width() - labels[1].get_width() - 42, 10))
-    if len(labels) > 2:
-        window.blit(labels[2], (window.get_width() - labels[2].get_width() - 10, labels[2].get_height() + 10))
+def draw_labels(window, label1, label2, label3, offset=False):
+    window.blit(label1, (10, 10))
+    window.blit(label2, (window.get_width() - label2.get_width() - 42, 10))
+    if not offset:
+        window.blit(label3, (window.get_width() - label3.get_width() - 10, label3.get_height() + 10))
+    else:
+        window.blit(label3, (window.get_width() - 225, label3.get_height() + 10))

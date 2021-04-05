@@ -29,6 +29,8 @@ class Game:
         self._GAME_OVER_SOUND = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'game_over.wav'))
         self._WIN_SOUND = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'win.wav'))
 
+        self._TXT_FILENAME = os.path.join('assets', 'txt', 'highscore.txt')
+
         self._WHITE = (255, 255, 255)
         self._ALL_PART_COLORS = (
             (128, 64, 64),
@@ -188,16 +190,24 @@ class Game:
             self._CLOCK.tick(self._FPS)
 
     def endless(self):
+        highscore_text = "Highscore: "
+        if os.stat(self._TXT_FILENAME).st_size == 0:  # If the file is empty
+            highscore_text += '0'
+        else:
+            with open(self._TXT_FILENAME) as f:
+                highscore_text += f.read()
+
         while True:
             lives_label = self._LABEL_FONT.render("Lives: " + str(self._lives), True, self._WHITE)
-            round_label = self._LABEL_FONT.render("Round: " + str(self._current_round), True, self._WHITE)
+            highscore_label = self._LABEL_FONT.render(highscore_text, True, self._WHITE)
+            score_label = self._LABEL_FONT.render("Score: " + str(self._current_round), True, self._WHITE)
 
             self.check_events()
             self._WIN.fill(self._ALL_PART_COLORS[2])
             self._WIN.blit(self._CAVE_IMG, (0, 0))
 
             if not self._game_over:
-                draw_labels(self._WIN, lives_label, round_label)
+                draw_labels(self._WIN, lives_label, highscore_label, score_label, True)
                 self.manage_jars_display()
                 if not (self._key_drawn or self._snake_drawn):
                     self._finger.draw(self._WIN)
@@ -206,6 +216,8 @@ class Game:
                 else:
                     self.handle_snake()
             else:
+                with open(self._TXT_FILENAME, 'w') as f:
+                    f.write(str(self._current_round))
                 self.game_over_screen()
 
             pygame.display.update()
