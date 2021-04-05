@@ -6,7 +6,7 @@ __author__ = 'Eric-Nicolas'
 
 def main():
     game = Game()
-    game.run()
+    game.launch_menu()
 
 
 if __name__ == '__main__':

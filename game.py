@@ -67,25 +67,21 @@ class Game:
         pygame.quit()
         quit()
 
-    def run(self):
-        menu = Menu(self._WIN, "Magic Jars", "Play", "Quit")
+    def create_menu(self, title, option1, option2, func1, func2=None):
+        menu = Menu(self._WIN, title, option1, option2)
         while True:
-            menu.check_events(self.launch_submenu)
+            menu.check_events(func1, func2)
             self._WIN.fill(self._ALL_PART_COLORS[0])
             self._WIN.blit(self._CAVE_IMG, (0, 0))
             menu.draw(self._WIN)
             pygame.display.update()
             self._CLOCK.tick(15)
 
+    def launch_menu(self):
+        self.create_menu("Magic Jars", "Play", "Quit", self.launch_submenu)
+
     def launch_submenu(self):
-        sub_menu = Menu(self._WIN, "Select mode", "Regular", "Endless")
-        while True:
-            sub_menu.check_events(self.main_game, self.endless_mode)
-            self._WIN.fill(self._ALL_PART_COLORS[0])
-            self._WIN.blit(self._CAVE_IMG, (0, 0))
-            sub_menu.draw(self._WIN)
-            pygame.display.update()
-            self._CLOCK.tick(15)
+        self.create_menu("Select Mode", "Regular", "Endless", self.main_game, self.endless_mode)
 
     def check_events(self):
         for event in pygame.event.get():

@@ -77,7 +77,7 @@ class Menu:
         pygame.quit()
         quit()
 
-    def check_events(self, func1, func2=None):
+    def check_events(self, func1, func2):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.quit()
