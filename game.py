@@ -37,9 +37,6 @@ class Game:
             (64, 0, 64)
         )
 
-        self._WIN_LABEL = self._BIG_FONT.render("You win!", True, self._WHITE)
-        self._GAME_OVER_LABEL = self._BIG_FONT.render("Game Over", True, self._WHITE)
-
         self._CLOCK = pygame.time.Clock()
         self._FPS = 60
 
@@ -81,19 +78,16 @@ class Game:
         self.create_menu("Magic Jars", "Play", "Quit", self.launch_submenu)
 
     def launch_submenu(self):
-        self.create_menu("Select Mode", "Regular", "Endless", self.main_game, self.endless_mode)
+        self.create_menu("Select Mode", "Regular", "Endless", self.regular, self.endless)
 
     def check_events(self):
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 self.quit_game()
             elif event.type == pygame.KEYDOWN:
                 if not (self._has_won or self._game_over) and self._finger.can_move:
-                    if event.key == pygame.K_a or event.key == pygame.K_LEFT:
-                        self._finger.move_left()
-                    elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
-                        self._finger.move_right()
-                    elif event.key == pygame.K_SPACE or event.key == pygame.K_RETURN:
+                    self._finger.handle_movement(event)
+                    if event.key == pygame.K_SPACE or event.key == pygame.K_RETURN:
                         for i in range(self._NUMBER_OF_JARS):
                             self._finger.can_move = False
                             if self._finger.selected_item == i:
@@ -105,8 +99,6 @@ class Game:
                                     self._SNAKE_SOUND.play()
                                     self._snake_drawn = True
                                     break
-                if event.key == pygame.K_ESCAPE:
-                    self.quit_game()
 
     def handle_key(self, endless):
         self._timer += 1
@@ -145,31 +137,26 @@ class Game:
             elif self._finger.selected_item != i:
                 draw_jar(self._WIN, self._UNUSED_JAR_IMG, i)
 
-    def win_screen(self):
+    def show_screen(self, text, sound):
         self._timer += 1
         if self._timer < self._FPS:
             if self._timer == 1:
-                self._WIN_SOUND.play()
-            win_rect = self._WIN_LABEL.get_rect(
+                sound.play()
+            label = self._BIG_FONT.render(text, True, self._WHITE)
+            label_rect = label.get_rect(
                 center=(self._WIN_WIDTH // 2, self._WIN_HEIGHT // 2)
             )
-            self._WIN.blit(self._WIN_LABEL, win_rect)
+            self._WIN.blit(label, label_rect)
         else:
             self.quit_game()
+
+    def win_screen(self):
+        self.show_screen("You Win!", self._WIN_SOUND)
 
     def game_over_screen(self):
-        self._timer += 1
-        if self._timer < self._FPS:
-            if self._timer == 1:
-                self._GAME_OVER_SOUND.play()
-            game_over_rect = self._GAME_OVER_LABEL.get_rect(
-                center=(self._WIN_WIDTH // 2, self._WIN_HEIGHT // 2)
-            )
-            self._WIN.blit(self._GAME_OVER_LABEL, game_over_rect)
-        else:
-            self.quit_game()
+        self.show_screen("Game Over", self._GAME_OVER_SOUND)
 
-    def main_game(self):
+    def regular(self):
         while True:
             lives_label = self._LABEL_FONT.render("Lives: " + str(self._lives), True, self._WHITE)
             part_label = self._LABEL_FONT.render("Part: " + str(self._current_part), True, self._WHITE)
@@ -200,7 +187,7 @@ class Game:
             pygame.display.update()
             self._CLOCK.tick(self._FPS)
 
-    def endless_mode(self):
+    def endless(self):
         while True:
             lives_label = self._LABEL_FONT.render("Lives: " + str(self._lives), True, self._WHITE)
             round_label = self._LABEL_FONT.render("Round: " + str(self._current_round), True, self._WHITE)
