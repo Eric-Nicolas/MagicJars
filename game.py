@@ -67,55 +67,27 @@ class Game:
         pygame.quit()
         quit()
 
-    def check_events(self, menu, sub):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self.quit_game()
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_w or event.key == pygame.K_UP:
-                    menu.move_up()
-                elif event.key == pygame.K_s or event.key == pygame.K_DOWN:
-                    menu.move_down()
-                elif event.key == pygame.K_SPACE or event.key == pygame.K_RETURN:
-                    menu.play_selected_sound()
-                    if menu.get_pressed_item() == 0:
-                        if not sub:
-                            self.launch_submenu()
-                        else:
-                            self.main_game()
-                    elif menu.get_pressed_item() == 1:
-                        if not sub:
-                            self.quit_game()
-                        else:
-                            self.endless_mode()
-                elif event.key == pygame.K_ESCAPE:
-                    self.quit_game()
-
     def run(self):
         menu = Menu(self._WIN, "Magic Jars", "Play", "Quit")
         while True:
-            self.check_events(menu, False)
-
+            menu.check_events(self.launch_submenu)
             self._WIN.fill(self._ALL_PART_COLORS[0])
             self._WIN.blit(self._CAVE_IMG, (0, 0))
             menu.draw(self._WIN)
-
             pygame.display.update()
             self._CLOCK.tick(15)
 
     def launch_submenu(self):
         sub_menu = Menu(self._WIN, "Select mode", "Regular", "Endless")
         while True:
-            self.check_events(sub_menu, True)
-
+            sub_menu.check_events(self.main_game, self.endless_mode)
             self._WIN.fill(self._ALL_PART_COLORS[0])
             self._WIN.blit(self._CAVE_IMG, (0, 0))
             sub_menu.draw(self._WIN)
-
             pygame.display.update()
             self._CLOCK.tick(15)
 
-    def check_game_events(self):
+    def check_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.quit_game()
@@ -207,7 +179,7 @@ class Game:
             part_label = self._LABEL_FONT.render("Part: " + str(self._current_part), True, self._WHITE)
             round_label = self._LABEL_FONT.render("Round: " + str(self._current_round), True, self._WHITE)
 
-            self.check_game_events()
+            self.check_events()
             try:
                 self._WIN.fill(self._ALL_PART_COLORS[self._current_part - 1])
             except IndexError:  # If all the parts are done
@@ -237,7 +209,7 @@ class Game:
             lives_label = self._LABEL_FONT.render("Lives: " + str(self._lives), True, self._WHITE)
             round_label = self._LABEL_FONT.render("Round: " + str(self._current_round), True, self._WHITE)
 
-            self.check_game_events()
+            self.check_events()
             self._WIN.fill(self._ALL_PART_COLORS[2])
             self._WIN.blit(self._CAVE_IMG, (0, 0))
 

@@ -73,6 +73,32 @@ class Menu:
     def play_selected_sound(self):
         self._SELECTED_SOUND.play()
 
+    def quit(self):
+        pygame.quit()
+        quit()
+
+    def check_events(self, func1, func2=None):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.quit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_w or event.key == pygame.K_UP:
+                    self.move_up()
+                elif event.key == pygame.K_s or event.key == pygame.K_DOWN:
+                    self.move_down()
+                elif event.key == pygame.K_SPACE or event.key == pygame.K_RETURN:
+                    self.play_selected_sound()
+                    if self.get_pressed_item() == 0:
+                        func1()
+                    elif self.get_pressed_item() == 1:
+                        if func2 is None:
+                            self.quit()
+                        else:
+                            # self.endless_mode()
+                            func2()
+                elif event.key == pygame.K_ESCAPE:
+                    self.quit()
+
     def draw(self, window):
         self._TITLE.draw(window)
         for label in self._labels:
