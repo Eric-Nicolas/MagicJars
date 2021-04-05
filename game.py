@@ -21,9 +21,8 @@ class Game:
         self._SNAKE_IMG = pygame.image.load(os.path.join('assets', 'img', 'snake.png'))
         self._CAVE_IMG = pygame.image.load(os.path.join('assets', 'img', 'cave.png'))
 
-        self._LABEL_FONT = pygame.font.Font(None, 36)
-        self._BIG_FONT = pygame.font.Font(None, 120)
-        print(pygame.font.get_default_font())
+        self._LABEL_FONT = pygame.font.Font(os.path.join('assets', 'fonts', 'GoogleSans-Bold.ttf'), 30)
+        self._BIG_FONT = pygame.font.Font(os.path.join('assets', 'fonts', 'GoogleSans-Bold.ttf'), 100)
 
         self._KEY_SOUND = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'key_picked.wav'))
         self._SNAKE_SOUND = pygame.mixer.Sound(os.path.join('assets', 'sfx', 'snake_picked.wav'))
@@ -122,9 +121,9 @@ class Game:
                 self.quit_game()
             elif event.type == pygame.KEYDOWN:
                 if not (self._has_won or self._game_over) and self._finger.can_move:
-                    if event.key == pygame.K_LEFT:
+                    if event.key == pygame.K_a or event.key == pygame.K_LEFT:
                         self._finger.move_left()
-                    elif event.key == pygame.K_RIGHT:
+                    elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                         self._finger.move_right()
                     elif event.key == pygame.K_SPACE or event.key == pygame.K_RETURN:
                         for i in range(self._NUMBER_OF_JARS):
@@ -154,6 +153,7 @@ class Game:
                 self._jars = custom_array(self._NUMBER_OF_JARS, self._KEY, self._SNAKE, self._current_part)
             else:
                 self._jars = custom_array(self._NUMBER_OF_JARS, self._KEY, self._SNAKE, 1)
+
             self._finger.can_move = True
             self._key_drawn = False
             self._timer = 0
@@ -172,7 +172,7 @@ class Game:
 
     def manage_jars_display(self):
         for i in range(len(self._jars)):
-            if not self._key_drawn and not self._snake_drawn:
+            if not (self._key_drawn or self._snake_drawn):
                 draw_jar(self._WIN, self._JAR_IMG, i)
             elif self._finger.selected_item != i:
                 draw_jar(self._WIN, self._UNUSED_JAR_IMG, i)
@@ -215,10 +215,10 @@ class Game:
 
             self._WIN.blit(self._CAVE_IMG, (0, 0))
 
-            if not self._has_won and not self._game_over:
+            if not (self._has_won or self._game_over):
                 draw_labels(self._WIN, lives_label, part_label, round_label)
                 self.manage_jars_display()
-                if not self._key_drawn and not self._snake_drawn:
+                if not (self._key_drawn or self._snake_drawn):
                     self._finger.draw(self._WIN)
                 elif self._key_drawn:
                     self.handle_key(False)
@@ -244,8 +244,7 @@ class Game:
             if not self._game_over:
                 draw_labels(self._WIN, lives_label, round_label)
                 self.manage_jars_display()
-
-                if not self._key_drawn and not self._snake_drawn:
+                if not (self._key_drawn or self._snake_drawn):
                     self._finger.draw(self._WIN)
                 elif self._key_drawn:
                     self.handle_key(True)
