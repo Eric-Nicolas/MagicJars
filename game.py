@@ -104,7 +104,7 @@ class Game:
 
     def handle_key(self, endless):
         self._timer += 1
-        if self._timer <= self._FPS // 3 * 2:
+        if self._timer <= self._FPS // 3:
             draw_key(self._WIN, self._KEY_IMG, self._finger.selected_item)
         else:
             self._current_round += 1
@@ -122,7 +122,7 @@ class Game:
 
     def handle_snake(self):
         self._timer += 1
-        if self._timer <= self._FPS // 3 * 2:
+        if self._timer <= self._FPS // 3:
             draw_snake(self._WIN, self._SNAKE_IMG, self._finger.selected_item)
         else:
             self._lives -= 1
@@ -141,7 +141,7 @@ class Game:
 
     def show_screen(self, text, sound):
         self._timer += 1
-        if self._timer < self._FPS:
+        if self._timer < self._FPS // 2:
             if self._timer == 1:
                 sound.play()
             label = self._BIG_FONT.render(text, True, self._WHITE)
