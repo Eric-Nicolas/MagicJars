@@ -88,9 +88,9 @@ class Menu:
                 # self.endless_mode()
                 func2()
 
-    def check_events(self, joystick, func1, func2):
+    def check_events(self, joystick: pygame.joystick.Joystick, func1, func2):
         for event in pygame.event.get():
-            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE or joystick.get_button(7):
                 self.quit()
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_w or event.key == pygame.K_UP:
@@ -99,17 +99,13 @@ class Menu:
                     self.move_down()
                 elif event.key == pygame.K_SPACE or event.key == pygame.K_RETURN:
                     self.select(func1, func2)
-            elif event.type == pygame.JOYHATMOTION or event.type == pygame.JOYBUTTONDOWN:
-                self._button_pressed = True
-
-        if self._button_pressed:
-            if joystick.get_hat(0) == (0, 1):
-                self.move_up()
-            elif joystick.get_hat(0) == (0, -1):
-                self.move_down()
-            elif joystick.get_button(0):
+            elif event.type == pygame.JOYHATMOTION:
+                if joystick.get_hat(0) == (0, 1):
+                    self.move_up()
+                elif joystick.get_hat(0) == (0, -1):
+                    self.move_down()
+            elif event.type == pygame.JOYBUTTONDOWN and joystick.get_button(0):
                 self.select(func1, func2)
-            self._button_pressed = False
 
     def draw(self, window):
         self._TITLE.draw(window)
