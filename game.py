@@ -191,6 +191,7 @@ class Game:
             try:
                 self._WIN.fill(self._ALL_PART_COLORS[self._current_part - 1])
             except IndexError:  # If all the parts are done
+                self._WIN.fill(self._ALL_PART_COLORS[-1])
                 self._has_won = True
 
             self._WIN.blit(self._CAVE_IMG, (0, 0))
