@@ -42,6 +42,9 @@ class Game:
         self._CLOCK = pygame.time.Clock()
         self._FPS = 60
 
+        self._JOYSTICK = pygame.joystick.Joystick(0)
+        self._JOYSTICK.init()
+
         self._NUMBER_OF_JARS = 5
         self._NUMBER_OF_PARTS = 4
         self._NUMBER_OF_ROUNDS = 3
@@ -69,7 +72,8 @@ class Game:
     def create_menu(self, title, option1, option2, func1, func2=None):
         menu = Menu(self._WIN, title, option1, option2)
         while True:
-            menu.check_events(func1, func2)
+            menu.check_events(self._JOYSTICK, func1, func2)
+
             self._WIN.fill(self._ALL_PART_COLORS[0])
             self._WIN.blit(self._CAVE_IMG, (0, 0))
             menu.draw(self._WIN)

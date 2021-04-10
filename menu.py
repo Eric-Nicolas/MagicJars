@@ -49,13 +49,12 @@ class Menu:
         for i in range(len(self._labels)):
             self._labels[i].set_pos(((WIDTH - self._TITLE_WIDTH) // 2, HEIGHT // (len(self._labels) + 1) * (i + 1)))
 
+        self._button_pressed = False
+
     @staticmethod
     def quit():
         pygame.quit()
         quit()
-
-    def get_pressed_item(self):
-        return self._selected_item
 
     def move_up(self):
         if self._selected_item - 1 >= 0:
@@ -78,7 +77,18 @@ class Menu:
     def play_selected_sound(self):
         self._SELECTED_SOUND.play()
 
-    def check_events(self, func1, func2):
+    def select(self, func1, func2):
+        self.play_selected_sound()
+        if self._selected_item == 0:
+            func1()
+        elif self._selected_item == 1:
+            if func2 is None:
+                self.quit()
+            else:
+                # self.endless_mode()
+                func2()
+
+    def check_events(self, joystick, func1, func2):
         for event in pygame.event.get():
             if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 self.quit()
@@ -88,15 +98,18 @@ class Menu:
                 elif event.key == pygame.K_s or event.key == pygame.K_DOWN:
                     self.move_down()
                 elif event.key == pygame.K_SPACE or event.key == pygame.K_RETURN:
-                    self.play_selected_sound()
-                    if self.get_pressed_item() == 0:
-                        func1()
-                    elif self.get_pressed_item() == 1:
-                        if func2 is None:
-                            self.quit()
-                        else:
-                            # self.endless_mode()
-                            func2()
+                    self.select(func1, func2)
+            elif event.type == pygame.JOYHATMOTION or event.type == pygame.JOYBUTTONDOWN:
+                self._button_pressed = True
+
+        if self._button_pressed:
+            if joystick.get_hat(0) == (0, 1):
+                self.move_up()
+            elif joystick.get_hat(0) == (0, -1):
+                self.move_down()
+            elif joystick.get_button(0):
+                self.select(func1, func2)
+            self._button_pressed = False
 
     def draw(self, window):
         self._TITLE.draw(window)
