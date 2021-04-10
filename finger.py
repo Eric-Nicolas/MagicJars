@@ -46,11 +46,5 @@ class Finger(pygame.sprite.Sprite):
         else:
             self._BLOCKED_SOUND.play()
 
-    def handle_movement(self, event):
-        if event.key == pygame.K_a or event.key == pygame.K_LEFT:
-            self.move_left()
-        elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
-            self.move_right()
-
     def draw(self, window):
         window.blit(self._IMG, (self._x, self._Y))

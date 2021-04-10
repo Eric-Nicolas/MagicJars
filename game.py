@@ -42,8 +42,11 @@ class Game:
         self._CLOCK = pygame.time.Clock()
         self._FPS = 60
 
-        self._JOYSTICK = pygame.joystick.Joystick(0)
-        self._JOYSTICK.init()
+        if pygame.joystick.get_count() != 0:
+            self._JOYSTICK = pygame.joystick.Joystick(0)
+            self._JOYSTICK.init()
+        else:
+            self._JOYSTICK = None
 
         self._NUMBER_OF_JARS = 5
         self._NUMBER_OF_PARTS = 4
@@ -86,25 +89,41 @@ class Game:
     def launch_submenu(self):
         self.create_menu("Select Mode", "Regular", "Endless", self.regular, self.endless)
 
+    def select(self):
+        for i in range(self._NUMBER_OF_JARS):
+            self._finger.can_move = False
+            if self._finger.selected_item == i:
+                if self._jars[i] == self._KEY:
+                    self._KEY_SOUND.play()
+                    self._key_drawn = True
+                    break
+                else:
+                    self._SNAKE_SOUND.play()
+                    self._snake_drawn = True
+                    break
+
     def check_events(self):
         for event in pygame.event.get():
-            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE or \
+                    self._JOYSTICK is not None and self._JOYSTICK.get_button(7):
                 self.quit_game()
             elif event.type == pygame.KEYDOWN:
                 if not (self._has_won or self._game_over) and self._finger.can_move:
-                    self._finger.handle_movement(event)
+                    if event.key == pygame.K_a or event.key == pygame.K_LEFT:
+                        self._finger.move_left()
+                    elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
+                        self._finger.move_right()
                     if event.key == pygame.K_SPACE or event.key == pygame.K_RETURN:
-                        for i in range(self._NUMBER_OF_JARS):
-                            self._finger.can_move = False
-                            if self._finger.selected_item == i:
-                                if self._jars[i] == self._KEY:
-                                    self._KEY_SOUND.play()
-                                    self._key_drawn = True
-                                    break
-                                else:
-                                    self._SNAKE_SOUND.play()
-                                    self._snake_drawn = True
-                                    break
+                        self.select()
+            if self._JOYSTICK is not None:
+                if not (self._has_won or self._game_over) and self._finger.can_move:
+                    if event.type == pygame.JOYHATMOTION:
+                        if self._JOYSTICK.get_hat(0) == (-1, 0):
+                            self._finger.move_left()
+                        elif self._JOYSTICK.get_hat(0) == (1, 0):
+                            self._finger.move_right()
+                    elif event.type == pygame.JOYBUTTONDOWN and self._JOYSTICK.get_button(0):
+                        self.select()
 
     def handle_key(self, endless):
         self._timer += 1
@@ -196,10 +215,11 @@ class Game:
     def endless(self):
         highscore_text = "Highscore: "
         if os.stat(self._TXT_FILENAME).st_size == 0:  # If the file is empty
-            highscore_text += '0'
+            highscore = 0
         else:
             with open(self._TXT_FILENAME) as f:
-                highscore_text += f.read()
+                highscore = int(f.read())
+        highscore_text += str(highscore)
 
         while True:
             lives_label = self._LABEL_FONT.render("Lives: " + str(self._lives), True, self._WHITE)
@@ -220,8 +240,9 @@ class Game:
                 else:
                     self.handle_snake()
             else:
-                with open(self._TXT_FILENAME, 'w') as f:
-                    f.write(str(self._current_round))
+                if self._current_round > highscore:
+                    with open(self._TXT_FILENAME, 'w') as f:
+                        f.write(str(self._current_round))
                 self.game_over_screen()
 
             pygame.display.update()
